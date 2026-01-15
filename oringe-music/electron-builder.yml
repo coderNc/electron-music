@@ -1,0 +1,53 @@
+appId: com.oringe-music.app
+productName: OringeMusic
+directories:
+  buildResources: build
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+  - '!{vitest.config.ts,postcss.config.js,tailwind.config.js}'
+  - '!**/*.test.ts'
+  - '!**/test/**'
+asarUnpack:
+  - resources/**
+win:
+  executableName: oringe-music
+  icon: resources/icon.png
+  target:
+    - nsis
+    - portable
+nsis:
+  artifactName: ${name}-${version}-setup.${ext}
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+  createDesktopShortcut: always
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+mac:
+  icon: resources/icon.png
+  entitlementsInherit: build/entitlements.mac.plist
+  extendInfo:
+    - NSCameraUsageDescription: Application requests access to the device's camera.
+    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
+    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
+    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
+  notarize: false
+  target:
+    - dmg
+    - zip
+dmg:
+  artifactName: ${name}-${version}.${ext}
+linux:
+  icon: resources/icon.png
+  target:
+    - AppImage
+    - deb
+  maintainer: OringeMusic
+  category: Audio
+appImage:
+  artifactName: ${name}-${version}.${ext}
+npmRebuild: false

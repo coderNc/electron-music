@@ -311,14 +311,14 @@
   - **Property 22: 封面显示降级**
   - **Validates: Requirements 8.4**
 
-- [ ] 20. 最终集成和打包
+- [x] 20. 最终集成和打包
   - 运行完整的测试套件
   - 修复所有发现的问题
   - 使用 electron-builder 配置打包
   - 生成安装包（Windows, macOS, Linux）
   - 测试安装包
 
-- [ ] 21. 文档和部署
+- [x] 21. 文档和部署
   - 编写 README 文档
   - 编写用户使用指南
   - 编写开发者文档
