@@ -1,5 +1,5 @@
-appId: com.oringe-music.app
-productName: OringeMusic
+appId: com.orange-music.app
+productName: OrangeMusic
 directories:
   buildResources: build
 files:
@@ -15,7 +15,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: oringe-music
+  executableName: orange-music
   icon: resources/icon.png
   target:
     - nsis
@@ -46,7 +46,7 @@ linux:
   target:
     - AppImage
     - deb
-  maintainer: OringeMusic
+  maintainer: OrangeMusic
   category: Audio
 appImage:
   artifactName: ${name}-${version}.${ext}

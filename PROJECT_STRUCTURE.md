@@ -53,8 +53,10 @@ local-music-player/
 │   │       │   │   ├── PlaylistView.tsx
 │   │       │   │   ├── PlaylistDetail.tsx
 │   │       │   │   └── CreatePlaylistDialog.tsx
-│   │       │   └── queue/      # 播放队列组件
-│   │       │       └── QueuePanel.tsx
+│   │       │   ├── queue/      # 播放队列组件
+│   │       │   │   └── QueuePanel.tsx
+│   │       │   └── lyrics/     # 歌词组件
+│   │       │       └── LyricsPanel.tsx
 │   │       │
 │   │       ├── contexts/       # React Context
 │   │       │   └── SearchInputContext.tsx
@@ -64,6 +66,7 @@ local-music-player/
 │   │       │   ├── useConfirmDialog.ts
 │   │       │   ├── useErrorNotifications.ts
 │   │       │   ├── useKeyboardShortcuts.ts
+│   │       │   ├── useLyrics.ts
 │   │       │   └── useTheme.ts
 │   │       │
 │   │       ├── services/       # 渲染进程服务

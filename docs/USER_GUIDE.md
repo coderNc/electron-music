@@ -1,6 +1,6 @@
 # 用户使用指南
 
-本指南将帮助您快速上手 OringeMusic，充分利用所有功能。
+本指南将帮助您快速上手 OrangeMusic，充分利用所有功能。
 
 ## 目录
 
@@ -10,6 +10,7 @@
 - [播放列表](#播放列表)
 - [播放队列](#播放队列)
 - [搜索与筛选](#搜索与筛选)
+- [歌词显示](#歌词显示)
 - [键盘快捷键](#键盘快捷键)
 - [设置与个性化](#设置与个性化)
 - [常见问题](#常见问题)
@@ -208,6 +209,40 @@
 
 ---
 
+## 歌词显示
+
+### 支持的歌词格式
+
+应用支持 LRC 格式的歌词文件，包含时间标签的歌词会自动同步滚动。
+
+### 歌词来源
+
+应用会按以下顺序查找歌词：
+
+1. **内嵌歌词** - 首先尝试从音频文件元数据中提取歌词
+2. **外部 LRC 文件** - 如果没有内嵌歌词，会查找与音频文件同名的 `.lrc` 文件
+
+例如，播放 `song.mp3` 时，会查找 `song.lrc`。
+
+### 歌词面板
+
+点击播放控制栏的歌词按钮可以打开/关闭歌词面板：
+
+- 歌词会随播放进度自动滚动
+- 当前播放的歌词行会高亮显示
+- 如果没有找到歌词，会显示"暂无歌词"
+
+### LRC 文件格式示例
+
+```
+[00:00.00]歌曲名称
+[00:05.50]第一句歌词
+[00:10.20]第二句歌词
+[00:15.80]第三句歌词
+```
+
+---
+
 ## 键盘快捷键
 
 ### 播放控制
@@ -276,9 +311,9 @@ A: 支持 MP3, FLAC, WAV, AAC, OGG, M4A, WMA, AIFF, ALAC, OPUS 等常见格式�
 A: 播放列表数据存储在应用数据目录中。您可以备份该目录来保存所有设置和播放列表。
 
 数据目录位置：
-- Windows: `%APPDATA%/oringe-music`
-- macOS: `~/Library/Application Support/oringe-music`
-- Linux: `~/.config/oringe-music`
+- Windows: `%APPDATA%/orange-music`
+- macOS: `~/Library/Application Support/orange-music`
+- Linux: `~/.config/orange-music`
 
 ### Q: 应用启动很慢怎么办？
 
@@ -286,4 +321,4 @@ A: 如果您的音乐库很大，首次加载可能需要一些时间。应用�
 
 ---
 
-如果您遇到其他问题，请在 [GitHub Issues](https://github.com/your-repo/oringe-music/issues) 中反馈。
+如果您遇到其他问题，请在 [GitHub Issues](https://github.com/your-repo/orange-music/issues) 中反馈。

@@ -1,7 +1,7 @@
-# OringeMusic
+# OrangeMusic
 
 <p align="center">
-  <img src="resources/icon.png" alt="OringeMusic" width="128" height="128">
+  <img src="resources/icon.png" alt="OrangeMusic" width="128" height="128">
 </p>
 
 <p align="center">
@@ -15,6 +15,7 @@
 - 🎵 **本地音乐库管理** - 添加文件夹，自动扫描音频文件
 - 🎨 **元数据解析** - 自动读取歌曲标题、艺术家、专辑、封面等信息
 - 🎧 **完整播放控制** - 播放、暂停、上一曲、下一曲、进度控制、音量调节
+- 📝 **歌词显示** - 支持 LRC 格式歌词，自动同步滚动高亮当前歌词
 - 📋 **播放列表** - 创建、编辑、删除自定义播放列表
 - 📝 **播放队列** - 灵活管理即将播放的歌曲
 - 🔀 **多种播放模式** - 顺序播放、随机播放、单曲循环、列表循环
@@ -38,19 +39,19 @@ MP3, FLAC, WAV, AAC, OGG, M4A, WMA, AIFF, ALAC, OPUS
 
 ### 从发布版本安装
 
-1. 前往 [Releases](https://github.com/your-repo/oringe-music/releases) 页面
+1. 前往 [Releases](https://github.com/your-repo/orange-music/releases) 页面
 2. 下载适合您操作系统的安装包：
-   - Windows: `OringeMusic-Setup-x.x.x.exe`
-   - macOS: `OringeMusic-x.x.x.dmg`
-   - Linux: `OringeMusic-x.x.x.AppImage`
+   - Windows: `OrangeMusic-Setup-x.x.x.exe`
+   - macOS: `OrangeMusic-x.x.x.dmg`
+   - Linux: `OrangeMusic-x.x.x.AppImage`
 3. 运行安装程序
 
 ### 从源码构建
 
 ```bash
 # 克隆仓库
-git clone https://github.com/your-repo/oringe-music.git
-cd oringe-music
+git clone https://github.com/your-repo/orange-music.git
+cd orange-music
 
 # 安装依赖
 npm install
@@ -107,6 +108,7 @@ npm run build:linux # Linux
 - **主内容区** - 显示歌曲列表、专辑网格或艺术家列表
 - **播放控制栏** - 底部固定，显示当前播放信息和控制按钮
 - **播放队列面板** - 可展开的侧边面板，管理播放队列
+- **歌词面板** - 显示同步滚动的歌词，自动高亮当前播放行
 
 ## 🛠️ 技术栈
 

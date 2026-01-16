@@ -1,6 +1,6 @@
 # 开发者文档
 
-本文档面向希望参与 OringeMusic 开发的开发者，介绍项目架构、开发流程和贡献指南。
+本文档面向希望参与 OrangeMusic 开发的开发者，介绍项目架构、开发流程和贡献指南。
 
 ## 目录
 
@@ -28,8 +28,8 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/your-repo/oringe-music.git
-cd oringe-music
+git clone https://github.com/your-repo/orange-music.git
+cd orange-music
 
 # 安装依赖
 npm install
@@ -167,6 +167,7 @@ interface FileService {
   scanFolder(folderPath: string): Promise<string[]>
   pathExists(path: string): Promise<boolean>
   getAudioFiles(folderPath: string): Promise<string[]>
+  readLyrics(audioFilePath: string): Promise<string | null>
 }
 ```
 
@@ -482,8 +483,8 @@ npm run build:linux # Linux
 构建配置在 `electron-builder.yml` 中：
 
 ```yaml
-appId: com.electron.oringe-music
-productName: OringeMusic
+appId: com.electron.orange-music
+productName: OrangeMusic
 directories:
   buildResources: build
 files:
@@ -538,4 +539,4 @@ files:
 
 ---
 
-如有问题，欢迎在 [GitHub Issues](https://github.com/your-repo/oringe-music/issues) 中讨论。
+如有问题，欢迎在 [GitHub Issues](https://github.com/your-repo/orange-music/issues) 中讨论。

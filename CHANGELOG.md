@@ -1,6 +1,6 @@
 # 更新日志
 
-本文档记录 OringeMusic 的所有重要更改。
+本文档记录 OrangeMusic 的所有重要更改。
 
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
@@ -9,7 +9,7 @@
 
 ### 🎉 首次发布
 
-OringeMusic 的首个正式版本，提供完整的本地音乐播放功能。
+OrangeMusic 的首个正式版本，提供完整的本地音乐播放功能。
 
 ### ✨ 新增功能
 
@@ -27,6 +27,13 @@ OringeMusic 的首个正式版本，提供完整的本地音乐播放功能。
 - 进度条拖动和点击跳转
 - 音量控制和静音
 - 多种播放模式：顺序播放、随机播放、单曲循环、列表循环
+
+#### 歌词显示
+- 支持 LRC 格式歌词文件
+- 自动从音频文件元数据提取内嵌歌词
+- 支持外部 .lrc 歌词文件（与音频文件同名）
+- 歌词自动同步滚动
+- 当前播放行高亮显示
 
 #### 播放列表
 - 创建、重命名、删除播放列表
@@ -115,4 +122,4 @@ OringeMusic 的首个正式版本，提供完整的本地音乐播放功能。
 
 ---
 
-[1.0.0]: https://github.com/your-repo/oringe-music/releases/tag/v1.0.0
+[1.0.0]: https://github.com/your-repo/orange-music/releases/tag/v1.0.0
