@@ -39,7 +39,7 @@ export function LoadingScreen({ message, error }: LoadingScreenProps): React.JSX
       </div>
 
       {/* App name */}
-      <h1 className="mb-6 text-2xl font-bold text-zinc-900 dark:text-zinc-100">橘子播放器</h1>
+      <h1 className="mb-6 text-2xl font-bold text-zinc-900 dark:text-zinc-100">橘子的晴天</h1>
 
       {/* Loading indicator or error */}
       {error ? (
