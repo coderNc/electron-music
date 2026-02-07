@@ -78,7 +78,7 @@ export function useLyrics(filePath: string | null): {
   // Find current lyric index based on position
   const currentIndex = React.useMemo(() => {
     if (lyrics.length === 0) return -1
-    
+
     // Find the last lyric that has started
     for (let i = lyrics.length - 1; i >= 0; i--) {
       if (lyrics[i].time <= position) {

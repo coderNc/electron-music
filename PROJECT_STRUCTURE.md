@@ -124,17 +124,18 @@ local-music-player/
 
 ## 路径别名
 
-| 别名 | 路径 |
-|------|------|
-| `@main/*` | `src/main/*` |
+| 别名          | 路径                 |
+| ------------- | -------------------- |
+| `@main/*`     | `src/main/*`         |
 | `@renderer/*` | `src/renderer/src/*` |
-| `@shared/*` | `src/shared/*` |
+| `@shared/*`   | `src/shared/*`       |
 
 ## 架构说明
 
 ### 主进程 (Main Process)
 
 运行在 Node.js 环境，负责：
+
 - 文件系统操作（扫描文件夹、读取文件）
 - 音频文件元数据解析
 - 数据持久化（electron-store）
@@ -144,6 +145,7 @@ local-music-player/
 ### 预加载脚本 (Preload)
 
 在渲染进程启动前运行，负责：
+
 - 暴露安全的 IPC 通信接口
 - 桥接主进程和渲染进程
 - 确保上下文隔离
@@ -151,6 +153,7 @@ local-music-player/
 ### 渲染进程 (Renderer Process)
 
 运行在浏览器环境，负责：
+
 - UI 渲染（React 组件）
 - 音频播放（Howler.js）
 - 状态管理（Zustand）
@@ -159,19 +162,20 @@ local-music-player/
 ### 共享代码 (Shared)
 
 包含主进程和渲染进程都需要的：
+
 - TypeScript 类型定义
 - 常量定义
 
 ## 技术栈
 
-| 类别 | 技术 |
-|------|------|
-| 框架 | Electron + Vite + React 19 + TypeScript |
-| UI | Tailwind CSS 4 + shadcn/ui |
-| 状态管理 | Zustand |
-| 音频 | Howler.js |
-| 元数据 | music-metadata |
-| 虚拟化 | react-virtuoso |
-| 持久化 | electron-store |
-| 测试 | Vitest + fast-check |
-| 代码质量 | ESLint + Prettier |
+| 类别     | 技术                                    |
+| -------- | --------------------------------------- |
+| 框架     | Electron + Vite + React 19 + TypeScript |
+| UI       | Tailwind CSS 4 + shadcn/ui              |
+| 状态管理 | Zustand                                 |
+| 音频     | Howler.js                               |
+| 元数据   | music-metadata                          |
+| 虚拟化   | react-virtuoso                          |
+| 持久化   | electron-store                          |
+| 测试     | Vitest + fast-check                     |
+| 代码质量 | ESLint + Prettier                       |

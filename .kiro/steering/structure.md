@@ -61,6 +61,7 @@ export const myService: MyService = { doSomething }
 ### Type Definitions
 
 All shared types go in `src/shared/types/index.ts`. Key interfaces:
+
 - `TrackMetadata` - Audio file metadata
 - `FolderInfo` - Scanned folder info
 - `Playlist` - User playlists

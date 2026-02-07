@@ -151,7 +151,7 @@ export async function extractLyrics(filePath: string): Promise<string | null> {
     const lyrics = metadata.common.lyrics
     if (lyrics && lyrics.length > 0) {
       // Return the first lyrics entry (usually the main lyrics)
-      return lyrics[0].text || lyrics[0] as unknown as string || null
+      return lyrics[0].text || (lyrics[0] as unknown as string) || null
     }
     return null
   } catch (error) {

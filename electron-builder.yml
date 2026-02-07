@@ -16,7 +16,7 @@ asarUnpack:
   - resources/**
 win:
   executableName: orange-music
-  icon: build/icon.ico
+  icon: resources/icon.png
   target:
     - nsis
     - portable

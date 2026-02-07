@@ -23,7 +23,9 @@ export function LyricsPanel({ className = '' }: LyricsPanelProps): React.JSX.Ele
 
   if (!currentTrack) {
     return (
-      <div className={`flex items-center justify-center text-zinc-500 dark:text-zinc-400 ${className}`}>
+      <div
+        className={`flex items-center justify-center text-zinc-500 dark:text-zinc-400 ${className}`}
+      >
         <p>选择一首歌曲开始播放</p>
       </div>
     )
@@ -31,7 +33,9 @@ export function LyricsPanel({ className = '' }: LyricsPanelProps): React.JSX.Ele
 
   if (isLoading) {
     return (
-      <div className={`flex items-center justify-center text-zinc-500 dark:text-zinc-400 ${className}`}>
+      <div
+        className={`flex items-center justify-center text-zinc-500 dark:text-zinc-400 ${className}`}
+      >
         <p>加载歌词中...</p>
       </div>
     )
@@ -39,7 +43,9 @@ export function LyricsPanel({ className = '' }: LyricsPanelProps): React.JSX.Ele
 
   if (error || lyrics.length === 0) {
     return (
-      <div className={`flex items-center justify-center text-zinc-500 dark:text-zinc-400 ${className}`}>
+      <div
+        className={`flex items-center justify-center text-zinc-500 dark:text-zinc-400 ${className}`}
+      >
         <p>暂无歌词</p>
       </div>
     )

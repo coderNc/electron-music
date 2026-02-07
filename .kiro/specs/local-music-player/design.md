@@ -36,25 +36,25 @@ graph TB
         STORE[Data Store]
         IPC_M[IPC Main Handler]
     end
-    
+
     subgraph "Renderer Process (Browser)"
         UI[React UI Components]
         ZUSTAND[Zustand State Store]
         AUDIO[Howler.js Audio Engine]
         IPC_R[IPC Renderer Handler]
     end
-    
+
     MP --> FS
     MP --> META
     MP --> STORE
     MP --> IPC_M
-    
+
     UI --> ZUSTAND
     UI --> AUDIO
     UI --> IPC_R
-    
+
     IPC_M <--> IPC_R
-    
+
     FS --> META
     META --> STORE
 ```
@@ -67,36 +67,36 @@ graph LR
         UI[UI Components]
         HOOKS[Custom Hooks]
     end
-    
+
     subgraph "State Layer"
         PLAYER_STORE[Player Store]
         LIBRARY_STORE[Library Store]
         PLAYLIST_STORE[Playlist Store]
         UI_STORE[UI Store]
     end
-    
+
     subgraph "Service Layer"
         AUDIO_SVC[Audio Service]
         IPC_SVC[IPC Service]
         STORAGE_SVC[Storage Service]
     end
-    
+
     subgraph "Main Process"
         FILE_SVC[File Service]
         META_SVC[Metadata Service]
         PERSIST[Persistence Service]
     end
-    
+
     UI --> HOOKS
     HOOKS --> PLAYER_STORE
     HOOKS --> LIBRARY_STORE
     HOOKS --> PLAYLIST_STORE
     HOOKS --> UI_STORE
-    
+
     PLAYER_STORE --> AUDIO_SVC
     LIBRARY_STORE --> IPC_SVC
     PLAYLIST_STORE --> STORAGE_SVC
-    
+
     IPC_SVC <--> FILE_SVC
     IPC_SVC <--> META_SVC
     STORAGE_SVC <--> PERSIST
@@ -113,21 +113,21 @@ graph LR
 ```typescript
 interface FileService {
   // 扫描文件夹，返回所有音频文件路径
-  scanFolder(folderPath: string): Promise<string[]>;
-  
+  scanFolder(folderPath: string): Promise<string[]>
+
   // 检查路径是否存在
-  pathExists(path: string): Promise<boolean>;
-  
+  pathExists(path: string): Promise<boolean>
+
   // 监听文件夹变化
-  watchFolder(folderPath: string, callback: (event: FileChangeEvent) => void): void;
-  
+  watchFolder(folderPath: string, callback: (event: FileChangeEvent) => void): void
+
   // 停止监听文件夹
-  unwatchFolder(folderPath: string): void;
+  unwatchFolder(folderPath: string): void
 }
 
 interface FileChangeEvent {
-  type: 'added' | 'removed' | 'modified';
-  filePath: string;
+  type: 'added' | 'removed' | 'modified'
+  filePath: string
 }
 ```
 
@@ -138,30 +138,30 @@ interface FileChangeEvent {
 ```typescript
 interface MetadataService {
   // 解析单个文件的元数据
-  parseFile(filePath: string): Promise<TrackMetadata>;
-  
+  parseFile(filePath: string): Promise<TrackMetadata>
+
   // 批量解析文件元数据
-  parseFiles(filePaths: string[]): Promise<TrackMetadata[]>;
-  
+  parseFiles(filePaths: string[]): Promise<TrackMetadata[]>
+
   // 提取封面图片
-  extractCover(filePath: string): Promise<Buffer | null>;
+  extractCover(filePath: string): Promise<Buffer | null>
 }
 
 interface TrackMetadata {
-  filePath: string;
-  title: string;
-  artist: string;
-  album: string;
-  albumArtist?: string;
-  year?: number;
-  genre?: string;
-  duration: number; // 秒
-  trackNumber?: number;
-  diskNumber?: number;
-  coverData?: Buffer;
-  format: string; // mp3, flac, wav, etc.
-  bitrate?: number;
-  sampleRate?: number;
+  filePath: string
+  title: string
+  artist: string
+  album: string
+  albumArtist?: string
+  year?: number
+  genre?: string
+  duration: number // 秒
+  trackNumber?: number
+  diskNumber?: number
+  coverData?: Buffer
+  format: string // mp3, flac, wav, etc.
+  bitrate?: number
+  sampleRate?: number
 }
 ```
 
@@ -172,55 +172,55 @@ interface TrackMetadata {
 ```typescript
 interface PersistenceService {
   // 保存音乐库配置
-  saveLibraryConfig(config: LibraryConfig): Promise<void>;
-  
+  saveLibraryConfig(config: LibraryConfig): Promise<void>
+
   // 加载音乐库配置
-  loadLibraryConfig(): Promise<LibraryConfig>;
-  
+  loadLibraryConfig(): Promise<LibraryConfig>
+
   // 保存播放列表
-  savePlaylists(playlists: Playlist[]): Promise<void>;
-  
+  savePlaylists(playlists: Playlist[]): Promise<void>
+
   // 加载播放列表
-  loadPlaylists(): Promise<Playlist[]>;
-  
+  loadPlaylists(): Promise<Playlist[]>
+
   // 保存应用设置
-  saveSettings(settings: AppSettings): Promise<void>;
-  
+  saveSettings(settings: AppSettings): Promise<void>
+
   // 加载应用设置
-  loadSettings(): Promise<AppSettings>;
-  
+  loadSettings(): Promise<AppSettings>
+
   // 保存播放状态
-  savePlaybackState(state: PlaybackState): Promise<void>;
-  
+  savePlaybackState(state: PlaybackState): Promise<void>
+
   // 加载播放状态
-  loadPlaybackState(): Promise<PlaybackState>;
+  loadPlaybackState(): Promise<PlaybackState>
 }
 
 interface LibraryConfig {
-  folders: FolderInfo[];
-  tracks: TrackMetadata[];
-  lastScanTime: number;
+  folders: FolderInfo[]
+  tracks: TrackMetadata[]
+  lastScanTime: number
 }
 
 interface FolderInfo {
-  id: string;
-  path: string;
-  name: string;
-  addedAt: number;
-  trackCount: number;
+  id: string
+  path: string
+  name: string
+  addedAt: number
+  trackCount: number
 }
 
 interface AppSettings {
-  volume: number;
-  playbackMode: 'sequential' | 'shuffle' | 'repeat-one' | 'repeat-all';
-  theme: 'light' | 'dark' | 'system';
+  volume: number
+  playbackMode: 'sequential' | 'shuffle' | 'repeat-one' | 'repeat-all'
+  theme: 'light' | 'dark' | 'system'
 }
 
 interface PlaybackState {
-  currentTrackId?: string;
-  position: number;
-  queue: string[];
-  queueIndex: number;
+  currentTrackId?: string
+  position: number
+  queue: string[]
+  queueIndex: number
 }
 ```
 
@@ -233,43 +233,43 @@ interface PlaybackState {
 ```typescript
 interface AudioService {
   // 加载音频文件
-  load(filePath: string): Promise<void>;
-  
+  load(filePath: string): Promise<void>
+
   // 播放
-  play(): void;
-  
+  play(): void
+
   // 暂停
-  pause(): void;
-  
+  pause(): void
+
   // 停止
-  stop(): void;
-  
+  stop(): void
+
   // 跳转到指定位置（秒）
-  seek(position: number): void;
-  
+  seek(position: number): void
+
   // 获取当前播放位置（秒）
-  getPosition(): number;
-  
+  getPosition(): number
+
   // 设置音量（0-1）
-  setVolume(volume: number): void;
-  
+  setVolume(volume: number): void
+
   // 获取音量
-  getVolume(): number;
-  
+  getVolume(): number
+
   // 获取时长（秒）
-  getDuration(): number;
-  
+  getDuration(): number
+
   // 监听播放结束事件
-  onEnd(callback: () => void): void;
-  
+  onEnd(callback: () => void): void
+
   // 监听播放错误事件
-  onError(callback: (error: Error) => void): void;
-  
+  onError(callback: (error: Error) => void): void
+
   // 监听播放进度事件
-  onProgress(callback: (position: number) => void): void;
-  
+  onProgress(callback: (position: number) => void): void
+
   // 清理资源
-  dispose(): void;
+  dispose(): void
 }
 ```
 
@@ -280,23 +280,23 @@ interface AudioService {
 ```typescript
 interface IPCService {
   // 文件夹操作
-  selectFolder(): Promise<string | null>;
-  scanFolder(folderPath: string): Promise<string[]>;
-  
+  selectFolder(): Promise<string | null>
+  scanFolder(folderPath: string): Promise<string[]>
+
   // 元数据操作
-  parseFile(filePath: string): Promise<TrackMetadata>;
-  parseFiles(filePaths: string[]): Promise<TrackMetadata[]>;
-  extractCover(filePath: string): Promise<string | null>; // base64
-  
+  parseFile(filePath: string): Promise<TrackMetadata>
+  parseFiles(filePaths: string[]): Promise<TrackMetadata[]>
+  extractCover(filePath: string): Promise<string | null> // base64
+
   // 持久化操作
-  saveLibraryConfig(config: LibraryConfig): Promise<void>;
-  loadLibraryConfig(): Promise<LibraryConfig>;
-  savePlaylists(playlists: Playlist[]): Promise<void>;
-  loadPlaylists(): Promise<Playlist[]>;
-  saveSettings(settings: AppSettings): Promise<void>;
-  loadSettings(): Promise<AppSettings>;
-  savePlaybackState(state: PlaybackState): Promise<void>;
-  loadPlaybackState(): Promise<PlaybackState>;
+  saveLibraryConfig(config: LibraryConfig): Promise<void>
+  loadLibraryConfig(): Promise<LibraryConfig>
+  savePlaylists(playlists: Playlist[]): Promise<void>
+  loadPlaylists(): Promise<Playlist[]>
+  saveSettings(settings: AppSettings): Promise<void>
+  loadSettings(): Promise<AppSettings>
+  savePlaybackState(state: PlaybackState): Promise<void>
+  loadPlaybackState(): Promise<PlaybackState>
 }
 ```
 
@@ -309,29 +309,29 @@ interface IPCService {
 ```typescript
 interface PlayerStore {
   // 状态
-  currentTrack: TrackMetadata | null;
-  isPlaying: boolean;
-  position: number;
-  duration: number;
-  volume: number;
-  playbackMode: 'sequential' | 'shuffle' | 'repeat-one' | 'repeat-all';
-  queue: TrackMetadata[];
-  queueIndex: number;
-  
+  currentTrack: TrackMetadata | null
+  isPlaying: boolean
+  position: number
+  duration: number
+  volume: number
+  playbackMode: 'sequential' | 'shuffle' | 'repeat-one' | 'repeat-all'
+  queue: TrackMetadata[]
+  queueIndex: number
+
   // 操作
-  play: (track?: TrackMetadata) => void;
-  pause: () => void;
-  stop: () => void;
-  next: () => void;
-  previous: () => void;
-  seek: (position: number) => void;
-  setVolume: (volume: number) => void;
-  setPlaybackMode: (mode: 'sequential' | 'shuffle' | 'repeat-one' | 'repeat-all') => void;
-  setQueue: (tracks: TrackMetadata[], startIndex?: number) => void;
-  addToQueue: (track: TrackMetadata) => void;
-  removeFromQueue: (index: number) => void;
-  clearQueue: () => void;
-  updatePosition: (position: number) => void;
+  play: (track?: TrackMetadata) => void
+  pause: () => void
+  stop: () => void
+  next: () => void
+  previous: () => void
+  seek: (position: number) => void
+  setVolume: (volume: number) => void
+  setPlaybackMode: (mode: 'sequential' | 'shuffle' | 'repeat-one' | 'repeat-all') => void
+  setQueue: (tracks: TrackMetadata[], startIndex?: number) => void
+  addToQueue: (track: TrackMetadata) => void
+  removeFromQueue: (index: number) => void
+  clearQueue: () => void
+  updatePosition: (position: number) => void
 }
 ```
 
@@ -342,42 +342,42 @@ interface PlayerStore {
 ```typescript
 interface LibraryStore {
   // 状态
-  folders: FolderInfo[];
-  tracks: TrackMetadata[];
-  isScanning: boolean;
-  scanProgress: number;
-  searchQuery: string;
-  filteredTracks: TrackMetadata[];
-  
+  folders: FolderInfo[]
+  tracks: TrackMetadata[]
+  isScanning: boolean
+  scanProgress: number
+  searchQuery: string
+  filteredTracks: TrackMetadata[]
+
   // 操作
-  addFolder: (folderPath: string) => Promise<void>;
-  removeFolder: (folderId: string) => Promise<void>;
-  refreshFolder: (folderId: string) => Promise<void>;
-  setSearchQuery: (query: string) => void;
-  loadLibrary: () => Promise<void>;
-  
+  addFolder: (folderPath: string) => Promise<void>
+  removeFolder: (folderId: string) => Promise<void>
+  refreshFolder: (folderId: string) => Promise<void>
+  setSearchQuery: (query: string) => void
+  loadLibrary: () => Promise<void>
+
   // 计算属性
-  getTracksByFolder: (folderId: string) => TrackMetadata[];
-  getTracksByAlbum: (album: string) => TrackMetadata[];
-  getTracksByArtist: (artist: string) => TrackMetadata[];
-  getAlbums: () => Album[];
-  getArtists: () => Artist[];
+  getTracksByFolder: (folderId: string) => TrackMetadata[]
+  getTracksByAlbum: (album: string) => TrackMetadata[]
+  getTracksByArtist: (artist: string) => TrackMetadata[]
+  getAlbums: () => Album[]
+  getArtists: () => Artist[]
 }
 
 interface Album {
-  name: string;
-  artist: string;
-  year?: number;
-  trackCount: number;
-  tracks: TrackMetadata[];
-  coverData?: string; // base64
+  name: string
+  artist: string
+  year?: number
+  trackCount: number
+  tracks: TrackMetadata[]
+  coverData?: string // base64
 }
 
 interface Artist {
-  name: string;
-  albumCount: number;
-  trackCount: number;
-  albums: Album[];
+  name: string
+  albumCount: number
+  trackCount: number
+  albums: Album[]
 }
 ```
 
@@ -388,26 +388,26 @@ interface Artist {
 ```typescript
 interface PlaylistStore {
   // 状态
-  playlists: Playlist[];
-  currentPlaylistId: string | null;
-  
+  playlists: Playlist[]
+  currentPlaylistId: string | null
+
   // 操作
-  createPlaylist: (name: string) => void;
-  deletePlaylist: (playlistId: string) => void;
-  renamePlaylist: (playlistId: string, newName: string) => void;
-  addTrackToPlaylist: (playlistId: string, track: TrackMetadata) => void;
-  removeTrackFromPlaylist: (playlistId: string, trackIndex: number) => void;
-  reorderPlaylistTracks: (playlistId: string, fromIndex: number, toIndex: number) => void;
-  loadPlaylists: () => Promise<void>;
-  savePlaylists: () => Promise<void>;
+  createPlaylist: (name: string) => void
+  deletePlaylist: (playlistId: string) => void
+  renamePlaylist: (playlistId: string, newName: string) => void
+  addTrackToPlaylist: (playlistId: string, track: TrackMetadata) => void
+  removeTrackFromPlaylist: (playlistId: string, trackIndex: number) => void
+  reorderPlaylistTracks: (playlistId: string, fromIndex: number, toIndex: number) => void
+  loadPlaylists: () => Promise<void>
+  savePlaylists: () => Promise<void>
 }
 
 interface Playlist {
-  id: string;
-  name: string;
-  tracks: TrackMetadata[];
-  createdAt: number;
-  updatedAt: number;
+  id: string
+  name: string
+  tracks: TrackMetadata[]
+  createdAt: number
+  updatedAt: number
 }
 ```
 
@@ -418,16 +418,16 @@ interface Playlist {
 ```typescript
 interface UIStore {
   // 状态
-  currentView: 'library' | 'playlists' | 'albums' | 'artists' | 'queue';
-  sidebarCollapsed: boolean;
-  queueVisible: boolean;
-  theme: 'light' | 'dark' | 'system';
-  
+  currentView: 'library' | 'playlists' | 'albums' | 'artists' | 'queue'
+  sidebarCollapsed: boolean
+  queueVisible: boolean
+  theme: 'light' | 'dark' | 'system'
+
   // 操作
-  setCurrentView: (view: 'library' | 'playlists' | 'albums' | 'artists' | 'queue') => void;
-  toggleSidebar: () => void;
-  toggleQueue: () => void;
-  setTheme: (theme: 'light' | 'dark' | 'system') => void;
+  setCurrentView: (view: 'library' | 'playlists' | 'albums' | 'artists' | 'queue') => void
+  toggleSidebar: () => void
+  toggleQueue: () => void
+  setTheme: (theme: 'light' | 'dark' | 'system') => void
 }
 ```
 
@@ -476,23 +476,23 @@ interface UIStore {
 
 ```typescript
 interface Track {
-  id: string; // 使用文件路径的 hash 作为 ID
-  filePath: string;
-  title: string;
-  artist: string;
-  album: string;
-  albumArtist?: string;
-  year?: number;
-  genre?: string;
-  duration: number;
-  trackNumber?: number;
-  diskNumber?: number;
-  coverUrl?: string; // base64 或 blob URL
-  format: string;
-  bitrate?: number;
-  sampleRate?: number;
-  addedAt: number;
-  folderId: string;
+  id: string // 使用文件路径的 hash 作为 ID
+  filePath: string
+  title: string
+  artist: string
+  album: string
+  albumArtist?: string
+  year?: number
+  genre?: string
+  duration: number
+  trackNumber?: number
+  diskNumber?: number
+  coverUrl?: string // base64 或 blob URL
+  format: string
+  bitrate?: number
+  sampleRate?: number
+  addedAt: number
+  folderId: string
 }
 ```
 
@@ -500,12 +500,12 @@ interface Track {
 
 ```typescript
 interface Folder {
-  id: string;
-  path: string;
-  name: string;
-  addedAt: number;
-  trackCount: number;
-  lastScanTime: number;
+  id: string
+  path: string
+  name: string
+  addedAt: number
+  trackCount: number
+  lastScanTime: number
 }
 ```
 
@@ -513,11 +513,11 @@ interface Folder {
 
 ```typescript
 interface Playlist {
-  id: string;
-  name: string;
-  trackIds: string[];
-  createdAt: number;
-  updatedAt: number;
+  id: string
+  name: string
+  trackIds: string[]
+  createdAt: number
+  updatedAt: number
 }
 ```
 
@@ -525,148 +525,179 @@ interface Playlist {
 
 ```typescript
 interface PlaybackState {
-  currentTrackId: string | null;
-  position: number;
-  isPlaying: boolean;
-  volume: number;
-  playbackMode: 'sequential' | 'shuffle' | 'repeat-one' | 'repeat-all';
-  queueTrackIds: string[];
-  queueIndex: number;
+  currentTrackId: string | null
+  position: number
+  isPlaying: boolean
+  volume: number
+  playbackMode: 'sequential' | 'shuffle' | 'repeat-one' | 'repeat-all'
+  queueTrackIds: string[]
+  queueIndex: number
 }
 ```
 
 ## Correctness Properties
 
-*属性（Property）是关于系统行为的形式化陈述，应该在所有有效执行中保持为真。属性是人类可读规范和机器可验证正确性保证之间的桥梁。*
-
+_属性（Property）是关于系统行为的形式化陈述，应该在所有有效执行中保持为真。属性是人类可读规范和机器可验证正确性保证之间的桥梁。_
 
 ### 核心属性
 
 #### Property 1: 文件夹扫描完整性
+
 *对于任意*包含音频文件的文件夹，扫描后应该发现所有支持格式的音频文件，并为每个文件解析元数据
 **Validates: Requirements 1.1, 1.2**
 
 #### Property 2: 数据持久化往返一致性
+
 *对于任意*音乐库配置、播放列表或播放状态，保存后重新加载应该得到等价的数据
 **Validates: Requirements 1.3, 9.2**
 
 #### Property 3: 不支持文件跳过
+
 *对于任意*包含不支持文件的文件夹，扫描时应该跳过不支持的文件并继续处理其他文件
 **Validates: Requirements 1.5**
 
 #### Property 4: 文件夹删除完整性
+
 *对于任意*音乐库中的文件夹，删除后该文件夹及其所有音频文件都不应出现在库中
 **Validates: Requirements 2.3**
 
 #### Property 5: 文件夹刷新同步性
+
 *对于任意*文件夹，刷新后库中的数据应该与文件系统的实际状态一致
 **Validates: Requirements 2.4, 2.6**
 
 #### Property 6: 播放状态转换
+
 *对于任意*音频文件，播放操作应该将播放状态设置为 playing，暂停操作应该保持当前位置
 **Validates: Requirements 3.1, 3.2**
 
 #### Property 7: 队列导航正确性
+
 *对于任意*播放队列，下一曲操作应该增加队列索引，上一曲操作应该减少队列索引（在有效范围内）
 **Validates: Requirements 3.3, 3.4**
 
 #### Property 8: 播放位置控制
+
 *对于任意*有效的播放位置值，seek 操作应该将当前播放位置更新为指定值
 **Validates: Requirements 3.5**
 
 #### Property 9: 音量控制范围
+
 *对于任意*0 到 1 之间的音量值，设置音量应该将音量更新为指定值
 **Validates: Requirements 3.6**
 
 #### Property 10: 播放模式行为
+
 *对于任意*播放队列和播放模式，当歌曲播放完成时，应该根据模式执行相应操作（顺序播放下一首、随机选择、重复当前、循环队列）
 **Validates: Requirements 3.7, 7.1, 7.2, 7.3, 7.4**
 
 #### Property 11: 播放列表添加操作
+
 *对于任意*播放列表和歌曲，添加歌曲后播放列表长度应该增加 1，且歌曲应该出现在列表末尾
 **Validates: Requirements 4.2**
 
 #### Property 12: 播放列表删除不影响原文件
+
 *对于任意*播放列表中的歌曲，从播放列表删除后，歌曲应该从列表中移除但原始文件应该仍然存在于音乐库中
 **Validates: Requirements 4.3**
 
 #### Property 13: 播放列表重排序
+
 *对于任意*播放列表，重排序操作应该改变歌曲顺序但不改变歌曲集合
 **Validates: Requirements 4.6**
 
 #### Property 14: 播放列表修改持久化
+
 *对于任意*播放列表修改操作（添加、删除、重排序），修改后应该立即持久化到存储
 **Validates: Requirements 4.7, 9.3**
 
 #### Property 15: 搜索结果匹配性
+
 *对于任意*搜索关键词，所有搜索结果的标题、艺术家或专辑名称都应该包含该关键词
 **Validates: Requirements 5.1, 5.6**
 
 #### Property 16: 筛选结果正确性
+
 *对于任意*艺术家或专辑筛选条件，所有筛选结果都应该属于指定的艺术家或专辑
 **Validates: Requirements 5.4, 5.5**
 
 #### Property 17: 搜索清空恢复
+
 *对于任意*搜索状态，清空搜索框应该恢复到搜索前的视图状态
 **Validates: Requirements 5.3**
 
 #### Property 18: 播放队列添加
+
 *对于任意*歌曲，添加到队列末尾应该将歌曲放在队列最后位置
 **Validates: Requirements 6.6**
 
 #### Property 19: 下一首播放插入
+
 *对于任意*歌曲，选择"下一首播放"应该将歌曲插入到当前播放歌曲之后的位置
 **Validates: Requirements 6.7**
 
 #### Property 20: 队列清空操作
+
 *对于任意*播放队列，清空操作应该使队列为空并停止播放
 **Validates: Requirements 6.5**
 
 #### Property 21: 播放模式持久化
+
 *对于任意*播放模式更改，新的播放模式应该立即保存到存储
 **Validates: Requirements 7.6**
 
 #### Property 22: 封面显示降级
+
 *对于任意*音频文件，如果有嵌入封面则显示封面，否则显示默认占位图
 **Validates: Requirements 8.4**
 
 #### Property 23: 应用状态持久化往返
+
 *对于任意*应用关闭时的状态，重新打开应用后应该恢复到相同的播放状态和音乐库数据
 **Validates: Requirements 9.1, 9.2**
 
 #### Property 24: 封面缓存一致性
+
 *对于任意*已加载的封面图片，再次请求相同封面应该从缓存返回而不是重新加载
 **Validates: Requirements 10.3**
 
 #### Property 25: 播放错误恢复
+
 *对于任意*无法播放的音频文件，应该显示错误消息并尝试播放队列中的下一首
 **Validates: Requirements 3.8, 11.1**
 
 #### Property 26: 路径错误处理
+
 *对于任意*不存在或无法访问的文件夹路径，应该提示用户错误并提供移除选项
 **Validates: Requirements 11.2**
 
 #### Property 27: 元数据解析降级
+
 *对于任意*元数据解析失败的音频文件，应该使用文件名作为标题并继续处理
 **Validates: Requirements 11.3**
 
 #### Property 28: 数据损坏恢复
+
 *对于任意*损坏或不可读的存储数据，应该使用默认配置并通知用户
 **Validates: Requirements 9.5**
 
 #### Property 29: 数据迁移正确性
+
 *对于任意*旧格式的数据，升级后应该正确迁移到新格式并保持数据完整性
 **Validates: Requirements 9.6**
 
 #### Property 30: 离线功能可用性
+
 *对于任意*网络不可用的情况，应用应该继续提供所有本地功能而不中断
 **Validates: Requirements 11.6**
 
 #### Property 31: 键盘快捷键响应
+
 *对于任意*定义的键盘快捷键，按下时应该触发相应的操作（播放/暂停、搜索、创建播放列表等）
 **Validates: Requirements 12.1, 12.6, 12.7, 12.8**
 
 #### Property 32: 方向键控制
+
 *对于任意*播放状态，左右箭头键应该调整播放位置，上下箭头键应该调整音量
 **Validates: Requirements 12.2, 12.3, 12.4, 12.5**
 
@@ -730,32 +761,39 @@ interface PlaybackState {
 #### 1. 主进程测试
 
 **File Service 测试**:
+
 - 单元测试: 测试特定文件夹结构的扫描
 - 属性测试: Property 1（文件夹扫描完整性）、Property 3（不支持文件跳过）
 
 **Metadata Service 测试**:
+
 - 单元测试: 测试特定音频文件的元数据解析
 - 属性测试: Property 27（元数据解析降级）
 
 **Persistence Service 测试**:
+
 - 单元测试: 测试特定数据的保存和加载
 - 属性测试: Property 2（数据持久化往返一致性）、Property 28（数据损坏恢复）、Property 29（数据迁移正确性）
 
 #### 2. 渲染进程测试
 
 **Audio Service 测试**:
+
 - 单元测试: 测试播放、暂停、停止等基本操作
 - 属性测试: Property 6（播放状态转换）、Property 8（播放位置控制）、Property 9（音量控制范围）
 
 **Player Store 测试**:
+
 - 单元测试: 测试特定播放场景
 - 属性测试: Property 7（队列导航正确性）、Property 10（播放模式行为）、Property 20（队列清空操作）
 
 **Library Store 测试**:
+
 - 单元测试: 测试特定库操作
 - 属性测试: Property 4（文件夹删除完整性）、Property 5（文件夹刷新同步性）、Property 15（搜索结果匹配性）、Property 16（筛选结果正确性）
 
 **Playlist Store 测试**:
+
 - 单元测试: 测试特定播放列表操作
 - 属性测试: Property 11（播放列表添加操作）、Property 12（播放列表删除不影响原文件）、Property 13（播放列表重排序）、Property 14（播放列表修改持久化）
 

@@ -146,11 +146,11 @@ import { audioService } from '@renderer/services/audio-service'
 import { fileService } from '@main/services/file-service'
 ```
 
-| 别名 | 路径 |
-|------|------|
-| `@main/*` | `src/main/*` |
+| 别名          | 路径                 |
+| ------------- | -------------------- |
+| `@main/*`     | `src/main/*`         |
 | `@renderer/*` | `src/renderer/src/*` |
-| `@shared/*` | `src/shared/*` |
+| `@shared/*`   | `src/shared/*`       |
 
 ---
 
@@ -333,7 +333,7 @@ interface UIStore {
 // preload/index.ts
 contextBridge.exposeInMainWorld('api', {
   selectFolder: () => ipcRenderer.invoke('select-folder'),
-  scanFolder: (path: string) => ipcRenderer.invoke('scan-folder', path),
+  scanFolder: (path: string) => ipcRenderer.invoke('scan-folder', path)
   // ...
 })
 
