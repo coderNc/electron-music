@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { createPortal } from 'react-dom'
 
 export interface ConfirmDialogProps {
   isOpen: boolean
@@ -44,9 +45,13 @@ export function ConfirmDialog({
     default: 'text-orange-400 bg-orange-500/10'
   }
 
-  return (
+  const dialog = (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onCancel} aria-hidden="true" />
+      <div
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={onCancel}
+        aria-hidden="true"
+      />
 
       <div
         className="glass-panel relative w-full max-w-md rounded-2xl p-6"
@@ -56,7 +61,9 @@ export function ConfirmDialog({
         aria-describedby="confirm-dialog-message"
       >
         <div className="mb-4 flex justify-center">
-          <div className={`flex h-12 w-12 items-center justify-center rounded-full ${iconColor[variant]}`}>
+          <div
+            className={`flex h-12 w-12 items-center justify-center rounded-full ${iconColor[variant]}`}
+          >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 strokeLinecap="round"
@@ -68,11 +75,17 @@ export function ConfirmDialog({
           </div>
         </div>
 
-        <h2 id="confirm-dialog-title" className="mb-2 text-center text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+        <h2
+          id="confirm-dialog-title"
+          className="mb-2 text-center text-lg font-semibold text-zinc-900 dark:text-zinc-100"
+        >
           {title}
         </h2>
 
-        <p id="confirm-dialog-message" className="mb-6 text-center text-sm text-zinc-600 dark:text-zinc-300">
+        <p
+          id="confirm-dialog-message"
+          className="mb-6 text-center text-sm text-zinc-600 dark:text-zinc-300"
+        >
           {message}
         </p>
 
@@ -93,4 +106,6 @@ export function ConfirmDialog({
       </div>
     </div>
   )
+
+  return createPortal(dialog, document.body)
 }

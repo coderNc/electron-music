@@ -10,6 +10,14 @@ import {
   type TrackMetadata,
   type ScanProgressEvent
 } from '@shared/types'
+import {
+  NETEASE_IPC_CHANNELS,
+  type NeteasePlaylistResult,
+  type NeteaseSongUrl,
+  type NeteaseTrack,
+  type NeteaseSongLyric,
+  type NeteaseLoginStatus
+} from '@shared/types/netease'
 
 // Default timeout for IPC operations (30 seconds)
 const DEFAULT_TIMEOUT = 30000
@@ -188,10 +196,41 @@ const ipcAPI = {
     }
     ipcRenderer.on(IPC_CHANNELS.SCAN_PROGRESS, handler)
 
-    // Return unsubscribe function
     return () => {
       ipcRenderer.removeListener(IPC_CHANNELS.SCAN_PROGRESS, handler)
     }
+  },
+
+  parseNeteasePlaylist: (input: string): Promise<IPCResult<NeteasePlaylistResult>> => {
+    return invokeWithTimeout(NETEASE_IPC_CHANNELS.PARSE_PLAYLIST, { input })
+  },
+
+  getNeteaseSongUrl: (id: number): Promise<IPCResult<NeteaseSongUrl>> => {
+    return invokeWithTimeout(NETEASE_IPC_CHANNELS.GET_SONG_URL, { id })
+  },
+
+  getNeteaseSongUrls: (ids: number[]): Promise<IPCResult<NeteaseSongUrl[]>> => {
+    return invokeWithTimeout(NETEASE_IPC_CHANNELS.GET_SONG_URLS, { ids })
+  },
+
+  getNeteaseSongDetail: (ids: number[]): Promise<IPCResult<NeteaseTrack[]>> => {
+    return invokeWithTimeout(NETEASE_IPC_CHANNELS.GET_SONG_DETAIL, { ids })
+  },
+
+  getNeteaseSongLyric: (id: number): Promise<IPCResult<NeteaseSongLyric>> => {
+    return invokeWithTimeout(NETEASE_IPC_CHANNELS.GET_SONG_LYRIC, { id })
+  },
+
+  setNeteaseCookie: (cookie: string): Promise<IPCResult<NeteaseLoginStatus>> => {
+    return invokeWithTimeout(NETEASE_IPC_CHANNELS.SET_COOKIE, { cookie })
+  },
+
+  clearNeteaseCookie: (): Promise<IPCResult<NeteaseLoginStatus>> => {
+    return invokeWithTimeout(NETEASE_IPC_CHANNELS.CLEAR_COOKIE)
+  },
+
+  getNeteaseLoginStatus: (): Promise<IPCResult<NeteaseLoginStatus>> => {
+    return invokeWithTimeout(NETEASE_IPC_CHANNELS.GET_LOGIN_STATUS)
   }
 }
 

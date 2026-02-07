@@ -8,6 +8,13 @@ import type {
   TrackMetadata,
   ScanProgressEvent
 } from '@shared/types'
+import type {
+  NeteasePlaylistResult,
+  NeteaseSongUrl,
+  NeteaseTrack,
+  NeteaseSongLyric,
+  NeteaseLoginStatus
+} from '@shared/types/netease'
 
 /**
  * Custom error class for IPC errors
@@ -212,23 +219,78 @@ export function onScanProgress(callback: (progress: ScanProgressEvent) => void):
   return getAPI().onScanProgress(callback)
 }
 
+export async function parseNeteasePlaylist(input: string): Promise<NeteasePlaylistResult> {
+  const result = await getAPI().parseNeteasePlaylist(input)
+  return unwrapResult(result)
+}
+
+export async function getNeteaseSongUrl(id: number): Promise<NeteaseSongUrl> {
+  const result = await getAPI().getNeteaseSongUrl(id)
+  return unwrapResult(result)
+}
+
+export async function getNeteaseSongUrls(ids: number[]): Promise<NeteaseSongUrl[]> {
+  const result = await getAPI().getNeteaseSongUrls(ids)
+  return unwrapResult(result)
+}
+
+export async function getNeteaseSongDetail(ids: number[]): Promise<NeteaseTrack[]> {
+  const result = await getAPI().getNeteaseSongDetail(ids)
+  return unwrapResult(result)
+}
+
+export async function getNeteaseSongLyric(id: number): Promise<NeteaseSongLyric> {
+  const result = await getAPI().getNeteaseSongLyric(id)
+  return unwrapResult(result)
+}
+
+export async function setNeteaseCookie(cookie: string): Promise<NeteaseLoginStatus> {
+  const api = getAPI() as Window['api'] & {
+    setNeteaseCookie?: (cookie: string) => Promise<IPCResult<NeteaseLoginStatus>>
+  }
+  if (typeof api.setNeteaseCookie !== 'function') {
+    throw new Error('客户端未更新，请重启应用后再试')
+  }
+  const result = await api.setNeteaseCookie(cookie)
+  return unwrapResult(result)
+}
+
+export async function clearNeteaseCookie(): Promise<NeteaseLoginStatus> {
+  const api = getAPI() as Window['api'] & {
+    clearNeteaseCookie?: () => Promise<IPCResult<NeteaseLoginStatus>>
+  }
+  if (typeof api.clearNeteaseCookie !== 'function') {
+    throw new Error('客户端未更新，请重启应用后再试')
+  }
+  const result = await api.clearNeteaseCookie()
+  return unwrapResult(result)
+}
+
+export async function getNeteaseLoginStatus(): Promise<NeteaseLoginStatus> {
+  const api = getAPI() as Window['api'] & {
+    getNeteaseLoginStatus?: () => Promise<IPCResult<NeteaseLoginStatus>>
+  }
+  if (typeof api.getNeteaseLoginStatus !== 'function') {
+    throw new Error('客户端未更新，请重启应用后再试')
+  }
+  const result = await api.getNeteaseLoginStatus()
+  return unwrapResult(result)
+}
+
 // ============================================
 // Service Export
 // ============================================
 
 export interface IPCService {
-  // File operations
   selectFolder: typeof selectFolder
   scanFolder: typeof scanFolder
   pathExists: typeof pathExists
   readLyrics: typeof readLyrics
 
-  // Metadata operations
   parseFile: typeof parseFile
   parseFiles: typeof parseFiles
   extractCover: typeof extractCover
 
-  // Persistence operations
   saveLibraryConfig: typeof saveLibraryConfig
   loadLibraryConfig: typeof loadLibraryConfig
   savePlaylists: typeof savePlaylists
@@ -238,8 +300,16 @@ export interface IPCService {
   savePlaybackState: typeof savePlaybackState
   loadPlaybackState: typeof loadPlaybackState
 
-  // Event subscriptions
   onScanProgress: typeof onScanProgress
+
+  parseNeteasePlaylist: typeof parseNeteasePlaylist
+  getNeteaseSongUrl: typeof getNeteaseSongUrl
+  getNeteaseSongUrls: typeof getNeteaseSongUrls
+  getNeteaseSongDetail: typeof getNeteaseSongDetail
+  getNeteaseSongLyric: typeof getNeteaseSongLyric
+  setNeteaseCookie: typeof setNeteaseCookie
+  clearNeteaseCookie: typeof clearNeteaseCookie
+  getNeteaseLoginStatus: typeof getNeteaseLoginStatus
 }
 
 export const ipcService: IPCService = {
@@ -258,5 +328,13 @@ export const ipcService: IPCService = {
   loadSettings,
   savePlaybackState,
   loadPlaybackState,
-  onScanProgress
+  onScanProgress,
+  parseNeteasePlaylist,
+  getNeteaseSongUrl,
+  getNeteaseSongUrls,
+  getNeteaseSongDetail,
+  getNeteaseSongLyric,
+  setNeteaseCookie,
+  clearNeteaseCookie,
+  getNeteaseLoginStatus
 }

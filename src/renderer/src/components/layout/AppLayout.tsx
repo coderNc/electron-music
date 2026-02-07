@@ -46,7 +46,7 @@ export function AppLayout({ children }: AppLayoutProps): React.JSX.Element {
 
         <main
           className={`flex-1 overflow-hidden transition-all duration-200 ${
-            sidebarCollapsed ? 'ml-16' : 'ml-56'
+            sidebarCollapsed ? 'ml-24' : 'ml-56'
           } ${queueVisible ? 'mr-80' : ''} ${lyricsVisible ? 'mr-80' : ''}`}
         >
           <div ref={contentRef} className="h-full overflow-auto px-4 pt-4 pb-20 page-enter">

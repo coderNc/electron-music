@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { subscribeWithSelector, persist } from 'zustand/middleware'
 
-export type ViewType = 'library' | 'playlists' | 'albums' | 'artists' | 'queue'
+export type ViewType = 'library' | 'playlists' | 'albums' | 'artists' | 'queue' | 'netease'
 export type ThemeType = 'light' | 'dark' | 'system'
 
 export interface UIState {

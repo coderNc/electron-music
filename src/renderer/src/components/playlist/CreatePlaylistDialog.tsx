@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { createPortal } from 'react-dom'
 import { usePlaylistStore } from '@renderer/stores/playlist-store'
 import { useUIStore } from '@renderer/stores/ui-store'
 
@@ -13,7 +14,12 @@ function CloseIcon(): React.JSX.Element {
 function PlaylistIcon(): React.JSX.Element {
   return (
     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M4 6h16M4 10h16M4 14h16M4 18h16"
+      />
     </svg>
   )
 }
@@ -71,7 +77,7 @@ export function CreatePlaylistDialog({
 
   const displayError = localError || error
 
-  return (
+  const dialog = (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
       onClick={() => {
@@ -90,7 +96,10 @@ export function CreatePlaylistDialog({
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 text-white">
               <PlaylistIcon />
             </div>
-            <h2 id="create-playlist-title" className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+            <h2
+              id="create-playlist-title"
+              className="text-lg font-semibold text-zinc-900 dark:text-zinc-100"
+            >
               创建播放列表
             </h2>
           </div>
@@ -136,7 +145,10 @@ export function CreatePlaylistDialog({
         >
           <div className="space-y-4">
             <div>
-              <label htmlFor="playlist-name" className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              <label
+                htmlFor="playlist-name"
+                className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+              >
                 播放列表名称
               </label>
               <input
@@ -156,10 +168,14 @@ export function CreatePlaylistDialog({
                 maxLength={100}
                 autoComplete="off"
               />
-              {displayError && <p className="mt-2 text-sm text-red-500 dark:text-red-400">{displayError}</p>}
+              {displayError && (
+                <p className="mt-2 text-sm text-red-500 dark:text-red-400">{displayError}</p>
+              )}
             </div>
 
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">创建后，你可以从音乐库中添加歌曲到这个播放列表</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              创建后，你可以从音乐库中添加歌曲到这个播放列表
+            </p>
           </div>
 
           <div className="mt-6 flex justify-end gap-3">
@@ -185,4 +201,6 @@ export function CreatePlaylistDialog({
       </div>
     </div>
   )
+
+  return createPortal(dialog, document.body)
 }

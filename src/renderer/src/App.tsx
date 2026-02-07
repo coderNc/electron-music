@@ -2,6 +2,7 @@ import * as React from 'react'
 import { AppLayout, LoadingScreen } from '@renderer/components/layout'
 import { LibraryView, AlbumGrid, ArtistList, SearchBar } from '@renderer/components/library'
 import { PlaylistView, PlaylistDetail, CreatePlaylistDialog } from '@renderer/components/playlist'
+import { NeteaseView } from '@renderer/components/netease'
 import { ErrorBoundary, ToastContainer } from '@renderer/components/feedback'
 import { useUIStore } from '@renderer/stores/ui-store'
 import { usePlaylistStore } from '@renderer/stores/playlist-store'
@@ -60,9 +61,13 @@ function MainContent(): React.JSX.Element {
         return (
           <div className="glass-panel space-y-3 rounded-2xl p-6">
             <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">播放队列</h2>
-            <p className="text-zinc-600 dark:text-zinc-300">队列已集成在右侧面板中，可通过侧边栏“播放队列”打开。</p>
+            <p className="text-zinc-600 dark:text-zinc-300">
+              队列已集成在右侧面板中，可通过侧边栏"播放队列"打开。
+            </p>
           </div>
         )
+      case 'netease':
+        return <NeteaseView />
       default:
         return null
     }

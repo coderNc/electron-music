@@ -8,9 +8,20 @@ import {
   type PlaybackState,
   type ScanProgressEvent
 } from '@shared/types'
+import { NETEASE_IPC_CHANNELS } from '@shared/types/netease'
 import { fileService } from '@main/services/file-service'
 import { metadataService } from '@main/services/metadata-service'
 import { persistenceService } from '@main/services/persistence-service'
+import {
+  getPlaylistDetail,
+  getSongUrl,
+  getSongUrls,
+  getSongDetail,
+  getSongLyric,
+  setCookie,
+  clearCookie,
+  getLoginStatus
+} from '@main/services/netease'
 
 // Default timeout for IPC operations (30 seconds)
 const DEFAULT_TIMEOUT = 30000
@@ -235,6 +246,61 @@ export function registerIPCHandlers(): void {
     return handleAsync(async () => {
       return await persistenceService.loadPlaybackState()
     }, 'LOAD_PLAYBACK_ERROR')
+  })
+
+  // ============================================
+  // NetEase Cloud Music Operations
+  // ============================================
+
+  ipcMain.handle(NETEASE_IPC_CHANNELS.PARSE_PLAYLIST, async (_, args: { input: string }) => {
+    return handleAsync(async () => {
+      const playlist = await getPlaylistDetail(args.input)
+      return { playlist }
+    }, 'NETEASE_PLAYLIST_ERROR')
+  })
+
+  ipcMain.handle(NETEASE_IPC_CHANNELS.GET_SONG_URL, async (_, args: { id: number }) => {
+    return handleAsync(async () => {
+      return await getSongUrl(args.id)
+    }, 'NETEASE_SONG_URL_ERROR')
+  })
+
+  ipcMain.handle(NETEASE_IPC_CHANNELS.GET_SONG_URLS, async (_, args: { ids: number[] }) => {
+    return handleAsync(async () => {
+      return await getSongUrls(args.ids)
+    }, 'NETEASE_SONG_URLS_ERROR')
+  })
+
+  ipcMain.handle(NETEASE_IPC_CHANNELS.GET_SONG_DETAIL, async (_, args: { ids: number[] }) => {
+    return handleAsync(async () => {
+      return await getSongDetail(args.ids)
+    }, 'NETEASE_SONG_DETAIL_ERROR')
+  })
+
+  ipcMain.handle(NETEASE_IPC_CHANNELS.GET_SONG_LYRIC, async (_, args: { id: number }) => {
+    return handleAsync(async () => {
+      return await getSongLyric(args.id)
+    }, 'NETEASE_SONG_LYRIC_ERROR')
+  })
+
+  ipcMain.handle(NETEASE_IPC_CHANNELS.SET_COOKIE, async (_, args: { cookie: string }) => {
+    return handleAsync(async () => {
+      setCookie(args.cookie)
+      return await getLoginStatus()
+    }, 'NETEASE_SET_COOKIE_ERROR')
+  })
+
+  ipcMain.handle(NETEASE_IPC_CHANNELS.CLEAR_COOKIE, async () => {
+    return handleAsync(async () => {
+      clearCookie()
+      return await getLoginStatus()
+    }, 'NETEASE_CLEAR_COOKIE_ERROR')
+  })
+
+  ipcMain.handle(NETEASE_IPC_CHANNELS.GET_LOGIN_STATUS, async () => {
+    return handleAsync(async () => {
+      return await getLoginStatus()
+    }, 'NETEASE_LOGIN_STATUS_ERROR')
   })
 
   console.log('IPC handlers registered successfully')

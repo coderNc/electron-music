@@ -111,20 +111,20 @@ class AudioServiceImpl {
    * @param filePath - Path to the audio file (file:// protocol will be added if needed)
    * @returns Promise that resolves when the file is loaded
    */
-  load(filePath: string): Promise<void> {
+  load(source: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      // Clean up existing howl
       this.dispose()
 
       this.setStatus('loading')
-      this.currentFilePath = filePath
+      this.currentFilePath = source
 
-      // Ensure file:// protocol for local files
-      const src = filePath.startsWith('file://') ? filePath : `file://${filePath}`
+      const isHttpUrl = source.startsWith('http://') || source.startsWith('https://')
+      const src = isHttpUrl ? source : source.startsWith('file://') ? source : `file://${source}`
 
       this.howl = new Howl({
         src: [src],
-        html5: false, // Use Web Audio API for visualizer support
+        html5: isHttpUrl,
+        format: isHttpUrl ? ['mp3', 'aac', 'm4a'] : undefined,
         volume: this.volume,
         onload: () => {
           this.setStatus('stopped')
@@ -136,7 +136,7 @@ class AudioServiceImpl {
           const audioError = new AudioServiceError(
             `Failed to load audio file: ${error}`,
             'LOAD_ERROR',
-            filePath
+            source
           )
           this.setStatus('error')
           this.errorCallbacks.forEach((cb) => cb(audioError))
@@ -163,7 +163,7 @@ class AudioServiceImpl {
           const audioError = new AudioServiceError(
             `Playback error: ${error}`,
             'PLAYBACK_ERROR',
-            filePath
+            source
           )
           this.setStatus('error')
           this.stopProgressTracking()

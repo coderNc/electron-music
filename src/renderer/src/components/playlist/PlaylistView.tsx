@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { createPortal } from 'react-dom'
 import { usePlaylistStore } from '@renderer/stores/playlist-store'
 import { useUIStore } from '@renderer/stores/ui-store'
 import type { Playlist } from '@shared/types'
@@ -6,7 +7,12 @@ import type { Playlist } from '@shared/types'
 function PlaylistIcon(): React.JSX.Element {
   return (
     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M4 6h16M4 10h16M4 14h16M4 18h16"
+      />
     </svg>
   )
 }
@@ -14,7 +20,12 @@ function PlaylistIcon(): React.JSX.Element {
 function AddPlaylistIcon(): React.JSX.Element {
   return (
     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+      />
     </svg>
   )
 }
@@ -52,7 +63,12 @@ interface PlaylistItemProps {
   onRename: (playlistId: string) => void
 }
 
-function PlaylistItem({ playlist, onSelect, onDelete, onRename }: PlaylistItemProps): React.JSX.Element {
+function PlaylistItem({
+  playlist,
+  onSelect,
+  onDelete,
+  onRename
+}: PlaylistItemProps): React.JSX.Element {
   const trackCount = playlist.trackIds.length
 
   return (
@@ -99,12 +115,24 @@ function EmptyState({ onCreatePlaylist }: { onCreatePlaylist: () => void }): Rea
   return (
     <div className="glass-panel flex flex-col items-center justify-center rounded-3xl py-16 text-center stage-gradient">
       <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
-        <svg className="h-8 w-8 text-zinc-500 dark:text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+        <svg
+          className="h-8 w-8 text-zinc-500 dark:text-zinc-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 6h16M4 10h16M4 14h16M4 18h16"
+          />
         </svg>
       </div>
       <h3 className="mb-2 text-lg font-medium text-zinc-900 dark:text-zinc-100">没有播放列表</h3>
-      <p className="mb-6 max-w-sm text-sm text-zinc-600 dark:text-zinc-300">创建播放列表来整理你喜欢的音乐</p>
+      <p className="mb-6 max-w-sm text-sm text-zinc-600 dark:text-zinc-300">
+        创建播放列表来整理你喜欢的音乐
+      </p>
       <button
         onClick={onCreatePlaylist}
         className="interactive-soft focus-ring rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2 font-medium text-white shadow-lg shadow-orange-500/20"
@@ -160,68 +188,86 @@ export function PlaylistView({ onSelectPlaylist }: PlaylistViewProps): React.JSX
       {error && (
         <div className="surface-card flex items-center justify-between rounded-xl border border-red-200/70 bg-red-50/60 p-4 dark:border-red-900/50 dark:bg-red-900/20">
           <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
-          <button onClick={clearError} className="focus-ring rounded px-2 text-sm text-red-700 underline dark:text-red-400">
+          <button
+            onClick={clearError}
+            className="focus-ring rounded px-2 text-sm text-red-700 underline dark:text-red-400"
+          >
             关闭
           </button>
         </div>
       )}
 
-      {renamingPlaylistId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="glass-panel w-full max-w-md rounded-2xl p-6">
-            <h3 className="mb-4 text-lg font-medium text-zinc-900 dark:text-zinc-100">重命名播放列表</h3>
-            <input
-              ref={renameInputRef}
-              type="text"
-              value={renameValue}
-              onChange={(e) => setRenameValue(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && renamingPlaylistId && renameValue.trim()) {
-                  renamePlaylist(renamingPlaylistId, renameValue.trim())
-                  setRenamingPlaylistId(null)
-                  setRenameValue('')
-                }
-                if (e.key === 'Escape') {
-                  setRenamingPlaylistId(null)
-                  setRenameValue('')
-                }
-              }}
-              className="glass-soft focus-ring mb-4 w-full rounded-xl px-4 py-2 text-zinc-900 dark:text-zinc-100"
-              placeholder="播放列表名称"
-            />
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => {
-                  setRenamingPlaylistId(null)
-                  setRenameValue('')
-                }}
-                className="interactive-soft rounded-xl px-4 py-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
-              >
-                取消
-              </button>
-              <button
-                onClick={async () => {
-                  if (renamingPlaylistId && renameValue.trim()) {
-                    await renamePlaylist(renamingPlaylistId, renameValue.trim())
+      {renamingPlaylistId &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+            onClick={() => {
+              setRenamingPlaylistId(null)
+              setRenameValue('')
+            }}
+          >
+            <div
+              className="glass-panel w-full max-w-md rounded-2xl p-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="mb-4 text-lg font-medium text-zinc-900 dark:text-zinc-100">
+                重命名播放列表
+              </h3>
+              <input
+                ref={renameInputRef}
+                type="text"
+                value={renameValue}
+                onChange={(e) => setRenameValue(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && renamingPlaylistId && renameValue.trim()) {
+                    renamePlaylist(renamingPlaylistId, renameValue.trim())
+                    setRenamingPlaylistId(null)
+                    setRenameValue('')
                   }
-                  setRenamingPlaylistId(null)
-                  setRenameValue('')
+                  if (e.key === 'Escape') {
+                    setRenamingPlaylistId(null)
+                    setRenameValue('')
+                  }
                 }}
-                disabled={!renameValue.trim()}
-                className="interactive-soft focus-ring rounded-xl bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900"
-              >
-                保存
-              </button>
+                className="glass-soft focus-ring mb-4 w-full rounded-xl px-4 py-2 text-zinc-900 dark:text-zinc-100"
+                placeholder="播放列表名称"
+              />
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => {
+                    setRenamingPlaylistId(null)
+                    setRenameValue('')
+                  }}
+                  className="interactive-soft rounded-xl px-4 py-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
+                >
+                  取消
+                </button>
+                <button
+                  onClick={async () => {
+                    if (renamingPlaylistId && renameValue.trim()) {
+                      await renamePlaylist(renamingPlaylistId, renameValue.trim())
+                    }
+                    setRenamingPlaylistId(null)
+                    setRenameValue('')
+                  }}
+                  disabled={!renameValue.trim()}
+                  className="interactive-soft focus-ring rounded-xl bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900"
+                >
+                  保存
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
 
       {playlists.length === 0 ? (
         <EmptyState onCreatePlaylist={openCreatePlaylistDialog} />
       ) : (
         <div className="space-y-3">
-          <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-300">所有播放列表 ({playlists.length})</h3>
+          <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
+            所有播放列表 ({playlists.length})
+          </h3>
           <div className="space-y-2">
             {playlists.map((playlist) => (
               <PlaylistItem

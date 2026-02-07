@@ -65,7 +65,12 @@ interface FolderItemProps {
   isScanning: boolean
 }
 
-function FolderItem({ folder, onRefresh, onRemove, isScanning }: FolderItemProps): React.JSX.Element {
+function FolderItem({
+  folder,
+  onRefresh,
+  onRemove,
+  isScanning
+}: FolderItemProps): React.JSX.Element {
   return (
     <div className="surface-card group interactive-soft flex items-center justify-between rounded-2xl border p-4">
       <div className="flex items-center gap-3">
@@ -118,7 +123,7 @@ function EmptyState({ onAddFolder }: { onAddFolder: () => void }): React.JSX.Ele
       </p>
       <button
         onClick={onAddFolder}
-        className="interactive-soft focus-ring rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-orange-500/25"
+        className="interactive-soft focus-ring rounded-xl bg-orange-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-orange-600"
       >
         <span className="inline-flex items-center gap-2">
           <AddFolderIcon />
@@ -177,13 +182,15 @@ export function LibraryView({ onSelectFolder }: LibraryViewProps): React.JSX.Ele
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">音乐库</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+          音乐库
+        </h2>
         <div className="flex items-center gap-3">
           <SearchBar className="w-64" inputRef={searchInputRef ?? undefined} />
           <button
             onClick={() => addFolder()}
             disabled={isScanning}
-            className="interactive-soft focus-ring rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-orange-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+            className="interactive-soft focus-ring rounded-xl bg-orange-500 px-4 py-2 text-sm font-medium text-white hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <span className="inline-flex items-center gap-2">
               <AddFolderIcon />
@@ -218,7 +225,9 @@ export function LibraryView({ onSelectFolder }: LibraryViewProps): React.JSX.Ele
       ) : (
         <div className="space-y-6">
           <div className="space-y-3">
-            <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-300">文件夹 ({folders.length})</h3>
+            <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
+              文件夹 ({folders.length})
+            </h3>
             <div className="space-y-2">
               {folders.map((folder) => (
                 <div

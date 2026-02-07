@@ -8,7 +8,7 @@ interface LyricsPanelProps {
 
 export function LyricsPanel({ className = '' }: LyricsPanelProps): React.JSX.Element {
   const currentTrack = usePlayerStore((state) => state.currentTrack)
-  const { lyrics, currentIndex, isLoading, error } = useLyrics(currentTrack?.filePath ?? null)
+  const { lyrics, currentIndex, isLoading, error } = useLyrics(currentTrack)
   const containerRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
@@ -20,7 +20,9 @@ export function LyricsPanel({ className = '' }: LyricsPanelProps): React.JSX.Ele
 
   if (!currentTrack) {
     return (
-      <div className={`stage-gradient flex items-center justify-center text-zinc-500 dark:text-zinc-400 ${className}`}>
+      <div
+        className={`flex items-center justify-center text-zinc-500 dark:text-zinc-400 ${className}`}
+      >
         <p>选择一首歌曲开始播放</p>
       </div>
     )
@@ -28,7 +30,9 @@ export function LyricsPanel({ className = '' }: LyricsPanelProps): React.JSX.Ele
 
   if (isLoading) {
     return (
-      <div className={`stage-gradient flex items-center justify-center text-zinc-500 dark:text-zinc-400 ${className}`}>
+      <div
+        className={`flex items-center justify-center text-zinc-500 dark:text-zinc-400 ${className}`}
+      >
         <p>加载歌词中...</p>
       </div>
     )
@@ -36,27 +40,34 @@ export function LyricsPanel({ className = '' }: LyricsPanelProps): React.JSX.Ele
 
   if (error || lyrics.length === 0) {
     return (
-      <div className={`stage-gradient flex items-center justify-center text-zinc-500 dark:text-zinc-400 ${className}`}>
+      <div
+        className={`flex items-center justify-center text-zinc-500 dark:text-zinc-400 ${className}`}
+      >
         <p>暂无歌词</p>
       </div>
     )
   }
 
   return (
-    <div ref={containerRef} className={`stage-gradient overflow-y-auto px-4 py-8 ${className}`}>
+    <div ref={containerRef} className={`overflow-y-auto px-4 py-8 ${className}`}>
       <div className="space-y-5">
         {lyrics.map((line, index) => {
           const distance = Math.abs(index - currentIndex)
           return (
-            <p
+            <div
               key={`${line.time}-${index}`}
               data-active={index === currentIndex}
               data-near={distance <= 1 && index !== currentIndex}
               data-dim={distance >= 3}
-              className="lyric-line text-center text-sm text-zinc-600 dark:text-zinc-300"
+              className="lyric-line text-center"
             >
-              {line.text || '♪'}
-            </p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-300">{line.text || '♪'}</p>
+              {line.translatedText && (
+                <p className="mt-1 text-xs text-zinc-500/90 dark:text-zinc-400/90">
+                  {line.translatedText}
+                </p>
+              )}
+            </div>
           )
         })}
       </div>
