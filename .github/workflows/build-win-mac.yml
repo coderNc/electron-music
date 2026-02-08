@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
 
 jobs:
   package:
@@ -15,7 +20,8 @@ jobs:
         platform:
           - name: Windows
             os: windows-latest
-            build_command: npm run build:win
+            build_command_no_publish: npm run build:win -- --publish never
+            build_command_publish: npm run build:win -- --publish always
             artifact_name: orange-music-win
             artifact_paths: |
               dist/*.exe
@@ -23,7 +29,8 @@ jobs:
               dist/latest*.yml
           - name: macOS
             os: macos-latest
-            build_command: npm run build:mac
+            build_command_no_publish: npm run build:mac -- --publish never
+            build_command_publish: npm run build:mac -- --publish always
             artifact_name: orange-music-mac
             artifact_paths: |
               dist/*.dmg
@@ -44,8 +51,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build package
-        run: ${{ matrix.platform.build_command }}
+      - name: Build package (publish on tag)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            ${{ matrix.platform.build_command_publish }}
+          else
+            ${{ matrix.platform.build_command_no_publish }}
+          fi
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
