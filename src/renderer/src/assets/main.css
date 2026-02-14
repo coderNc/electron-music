@@ -81,10 +81,14 @@ body::after {
 @keyframes glow-breath {
   0%,
   100% {
-    box-shadow: 0 0 0 rgba(var(--ambient-rgb), 0), 0 0 16px rgba(var(--ambient-rgb), 0.16);
+    box-shadow:
+      0 0 0 rgba(var(--ambient-rgb), 0),
+      0 0 16px rgba(var(--ambient-rgb), 0.16);
   }
   50% {
-    box-shadow: 0 0 0 rgba(var(--ambient-rgb), 0), 0 0 24px rgba(var(--ambient-rgb), 0.34);
+    box-shadow:
+      0 0 0 rgba(var(--ambient-rgb), 0),
+      0 0 24px rgba(var(--ambient-rgb), 0.34);
   }
 }
 
@@ -222,7 +226,11 @@ body::after {
   position: absolute;
   inset: 6px;
   border-radius: 12px;
-  background: linear-gradient(140deg, rgba(var(--ambient-rgb), 0.42), rgba(var(--ambient-rgb), 0.16));
+  background: linear-gradient(
+    140deg,
+    rgba(var(--ambient-rgb), 0.42),
+    rgba(var(--ambient-rgb), 0.16)
+  );
   filter: blur(0.2px);
   opacity: 0;
   transform: scale(0.92);
@@ -303,8 +311,6 @@ body::after {
   background: color-mix(in srgb, var(--glass-surface) 94%, transparent);
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
-
-
 
 .dynamic-bg {
   transition:
@@ -387,7 +393,11 @@ body::after {
 }
 
 .dark .nav-liquid[data-active='true']::before {
-  background: linear-gradient(140deg, rgba(var(--ambient-rgb), 0.32), rgba(var(--ambient-rgb), 0.12));
+  background: linear-gradient(
+    140deg,
+    rgba(var(--ambient-rgb), 0.32),
+    rgba(var(--ambient-rgb), 0.12)
+  );
 }
 
 .macos-vibrancy .player-bar-glass,
@@ -423,6 +433,64 @@ body::after {
 
 .dark .macos-vibrancy .side-panel-flat {
   background: rgba(21, 25, 37, 0.7);
+}
+
+/* Global scrollbar styles */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 100px;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--ambient-rgb), 0.45);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: rgba(var(--ambient-rgb), 0.6);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.dark *::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.dark *:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.dark *::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--ambient-rgb), 0.4);
+}
+
+.dark *::-webkit-scrollbar-thumb:active {
+  background: rgba(var(--ambient-rgb), 0.55);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.12) transparent;
+}
+
+.dark * {
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {

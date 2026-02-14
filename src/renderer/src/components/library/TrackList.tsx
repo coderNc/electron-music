@@ -14,9 +14,18 @@ const PlayingIndicator = React.memo(function PlayingIndicator(): React.JSX.Eleme
   return (
     <div className="flex h-10 w-10 items-center justify-center">
       <div className="flex items-end gap-0.5">
-        <div className="h-3 w-1 animate-pulse rounded-full bg-orange-500" style={{ animationDelay: '0ms' }} />
-        <div className="h-4 w-1 animate-pulse rounded-full bg-orange-500" style={{ animationDelay: '150ms' }} />
-        <div className="h-2 w-1 animate-pulse rounded-full bg-orange-500" style={{ animationDelay: '300ms' }} />
+        <div
+          className="h-3 w-1 animate-pulse rounded-full bg-orange-500"
+          style={{ animationDelay: '0ms' }}
+        />
+        <div
+          className="h-4 w-1 animate-pulse rounded-full bg-orange-500"
+          style={{ animationDelay: '150ms' }}
+        />
+        <div
+          className="h-2 w-1 animate-pulse rounded-full bg-orange-500"
+          style={{ animationDelay: '300ms' }}
+        />
       </div>
     </div>
   )
@@ -65,7 +74,9 @@ function ContextMenu({
       style={{ left: adjustedX, top: adjustedY }}
     >
       <div className="border-b border-zinc-200/70 px-3 py-2 dark:border-zinc-700/70">
-        <p className="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">{track.title}</p>
+        <p className="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
+          {track.title}
+        </p>
         <p className="truncate text-xs text-zinc-600 dark:text-zinc-300">{track.artist}</p>
       </div>
 
@@ -77,7 +88,12 @@ function ContextMenu({
         className="interactive-soft flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-zinc-700 hover:bg-zinc-200/60 dark:text-zinc-200 dark:hover:bg-zinc-700/80"
       >
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M13 5l7 7-7 7M5 5l7 7-7 7"
+          />
         </svg>
         下一首播放
       </button>
@@ -90,7 +106,12 @@ function ContextMenu({
         className="interactive-soft flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-zinc-700 hover:bg-zinc-200/60 dark:text-zinc-200 dark:hover:bg-zinc-700/80"
       >
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+          />
         </svg>
         添加到队列
       </button>
@@ -188,7 +209,9 @@ const TrackItem = React.memo(
         </div>
 
         <div className="w-12 text-right">
-          <span className="text-sm text-zinc-600 dark:text-zinc-200/90">{formatTime(track.duration)}</span>
+          <span className="text-sm text-zinc-600 dark:text-zinc-200/90">
+            {formatTime(track.duration)}
+          </span>
         </div>
       </div>
     )
@@ -207,7 +230,12 @@ function EmptyState(): React.JSX.Element {
   return (
     <div className="glass-soft flex flex-col items-center justify-center rounded-2xl py-16 text-center">
       <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
-        <svg className="h-8 w-8 text-zinc-500 dark:text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg
+          className="h-8 w-8 text-zinc-500 dark:text-zinc-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -228,11 +256,7 @@ export interface TrackListProps {
   height?: number | string
 }
 
-export function TrackList({
-  tracks,
-  header,
-  height = 'calc(100vh - 280px)'
-}: TrackListProps): React.JSX.Element {
+export function TrackList({ tracks, header, height = '100%' }: TrackListProps): React.JSX.Element {
   const currentTrack = usePlayerStore((state) => state.currentTrack)
   const isPlaying = usePlayerStore((state) => state.isPlaying)
   const setQueue = usePlayerStore((state) => state.setQueue)
@@ -264,7 +288,7 @@ export function TrackList({
   }
 
   return (
-    <div className="relative rounded-2xl dark:border dark:border-white/10 dark:bg-slate-950/20 dark:px-2 dark:py-1">
+    <div className="relative min-h-0 flex-1 rounded-2xl dark:border dark:border-white/10 dark:bg-slate-950/20 dark:px-2 dark:py-1">
       {header || (
         <div className="mb-2 flex items-center gap-3 border-b border-zinc-200/70 px-3 py-2 text-xs font-medium uppercase tracking-wider text-zinc-500 dark:border-white/18 dark:text-zinc-300">
           <div className="w-8 text-center">#</div>

@@ -55,14 +55,19 @@ function EditIcon(): React.JSX.Element {
 interface ImportPlaylistDialogProps {
   isOpen: boolean
   onClose: () => void
+  authCookie: string
+  onOpenCookieDialog: () => void
 }
 
 function ImportPlaylistDialog({
   isOpen,
-  onClose
+  onClose,
+  authCookie,
+  onOpenCookieDialog
 }: ImportPlaylistDialogProps): React.JSX.Element | null {
   const [input, setInput] = React.useState('')
   const { importPlaylist, isLoading, error, clearError } = useNeteaseStore()
+  const hasCookie = Boolean(authCookie)
 
   React.useEffect(() => {
     if (!isOpen) return
@@ -83,6 +88,13 @@ function ImportPlaylistDialog({
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault()
     if (!input.trim() || isLoading) return
+
+    if (!hasCookie) {
+      toast.warning('请先设置网易云 Cookie 后再导入歌单')
+      onOpenCookieDialog()
+      onClose()
+      return
+    }
 
     try {
       const playlist = await importPlaylist(input.trim())
@@ -120,6 +132,21 @@ function ImportPlaylistDialog({
             disabled={isLoading}
           />
           {error && <p className="text-sm text-red-500">{error}</p>}
+          {!hasCookie && (
+            <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-700 dark:border-amber-900/50 dark:bg-amber-900/20 dark:text-amber-400">
+              <p>尚未设置 Cookie，导入歌单前请先设置</p>
+              <button
+                type="button"
+                onClick={() => {
+                  onClose()
+                  onOpenCookieDialog()
+                }}
+                className="mt-1 text-xs font-medium text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300"
+              >
+                前往设置 →
+              </button>
+            </div>
+          )}
           <div className="flex justify-end gap-3">
             <button
               type="button"
@@ -130,7 +157,7 @@ function ImportPlaylistDialog({
             </button>
             <button
               type="submit"
-              disabled={isLoading || !input.trim()}
+              disabled={isLoading || !input.trim() || !hasCookie}
               className="interactive-soft focus-ring rounded-xl bg-orange-500 px-4 py-2 text-sm font-medium text-white hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLoading ? '导入中...' : '导入歌单'}
@@ -685,7 +712,7 @@ export function NeteaseView(): React.JSX.Element {
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-72 flex-shrink-0 overflow-y-auto border-r border-zinc-200 p-4 dark:border-zinc-700">
+        <div className="h-full w-72 flex-shrink-0 overflow-y-auto border-r border-zinc-200 p-4 dark:border-zinc-700">
           <h2 className="mb-3 text-sm font-semibold text-zinc-500 dark:text-zinc-400">
             已导入的歌单
           </h2>
@@ -735,7 +762,7 @@ export function NeteaseView(): React.JSX.Element {
           )}
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="h-full flex-1 overflow-y-auto p-4">
           {currentPlaylist ? (
             <>
               <div className="mb-4 flex items-center gap-4">
@@ -819,6 +846,8 @@ export function NeteaseView(): React.JSX.Element {
         onClose={() => {
           setImportDialogOpen(false)
         }}
+        authCookie={authCookie}
+        onOpenCookieDialog={() => setCookieDialogOpen(true)}
       />
 
       <ConfirmDialog

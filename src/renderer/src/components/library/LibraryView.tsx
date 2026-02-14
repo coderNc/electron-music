@@ -150,7 +150,7 @@ function AllTracksSection(): React.JSX.Element {
   }
 
   return (
-    <div className="space-y-3">
+    <div className="flex min-h-0 flex-1 flex-col gap-3">
       <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-200/90">
         所有歌曲 ({displayTracks.length})
         {searchQuery && displayTracks.length !== tracks.length && (
@@ -180,7 +180,7 @@ export function LibraryView({ onSelectFolder }: LibraryViewProps): React.JSX.Ele
   }
 
   return (
-    <div className="space-y-6">
+    <div className="flex min-h-0 flex-1 flex-col gap-6">
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
           音乐库
@@ -223,8 +223,8 @@ export function LibraryView({ onSelectFolder }: LibraryViewProps): React.JSX.Ele
       {folders.length === 0 && !isScanning ? (
         <EmptyState onAddFolder={() => addFolder()} />
       ) : (
-        <div className="space-y-6">
-          <div className="space-y-3">
+        <div className="flex min-h-0 flex-1 flex-col gap-6">
+          <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
               文件夹 ({folders.length})
             </h3>

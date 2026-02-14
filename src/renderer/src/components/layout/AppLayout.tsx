@@ -49,8 +49,11 @@ export function AppLayout({ children }: AppLayoutProps): React.JSX.Element {
             sidebarCollapsed ? 'ml-24' : 'ml-56'
           } ${queueVisible ? 'mr-80' : ''} ${lyricsVisible ? 'mr-80' : ''}`}
         >
-          <div ref={contentRef} className="h-full overflow-auto px-4 pt-4 pb-20 page-enter">
-            <div className="scroll-parallax">{children}</div>
+          <div
+            ref={contentRef}
+            className="flex h-full flex-col overflow-hidden px-4 pt-4 pb-20 page-enter"
+          >
+            <div className="scroll-parallax flex min-h-0 flex-1 flex-col">{children}</div>
           </div>
         </main>
 
